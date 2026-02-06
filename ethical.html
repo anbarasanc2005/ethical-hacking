@@ -1,0 +1,493 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login • Instagram</title>
+    <style>
+        /* --- PERFECT INSTAGRAM THEME CSS --- */
+        :root {
+            --bg-color: #fafafa;
+            --white: #ffffff;
+            --border-color: #dbdbdb;
+            --text-main: #262626;
+            --text-link: #0095f6;
+            --fb-color: #385185;
+            --disabled-blue: #b2dffc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Main Wrapper */
+        .wrapper {
+            width: 100%;
+            max-width: 350px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+        }
+
+        /* Login Panel */
+        .login-panel {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 1px;
+            padding: 40px 40px 20px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Dummy Logo Styling */
+        .dummy-logo {
+            margin-bottom: 36px;
+            margin-top: 10px;
+            width: 175px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Input Fields */
+        .input-box {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 3px;
+            height: 38px;
+            margin-bottom: 6px;
+            width: 100%;
+            position: relative;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            height: 100%;
+            font-size: 12px;
+            padding: 9px 8px;
+            color: var(--text-main);
+        }
+
+        .input-box:focus-within {
+            border-color: #a8a8a8;
+        }
+
+        /* Login Button */
+        .btn-login {
+            background-color: var(--disabled-blue);
+            border: none;
+            border-radius: 4px;
+            color: var(--white);
+            cursor: default;
+            font-weight: 600;
+            font-size: 14px;
+            height: 30px;
+            width: 100%;
+            margin: 8px 0 15px;
+            opacity: 0.3;
+            transition: opacity 0.2s, background-color 0.2s;
+        }
+
+        .btn-login.active {
+            background-color: var(--text-link);
+            cursor: pointer;
+            opacity: 1;
+        }
+
+        /* Separator */
+        .separator {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin: 18px 0 22px 0;
+        }
+
+        .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .or-text {
+            color: #8e8e8e;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 0 15px;
+            text-transform: uppercase;
+        }
+
+        /* Facebook & Forgot Password */
+        .fb-login {
+            color: var(--fb-color);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .fb-login svg {
+            margin-right: 8px;
+            height: 16px;
+            width: 16px;
+            fill: var(--fb-color);
+        }
+
+        .forgot-pass {
+            color: var(--fb-color);
+            font-size: 12px;
+            line-height: 14px;
+            margin-top: 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Signup Panel */
+        .signup-panel {
+            background-color: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 1px;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .signup-panel a {
+            color: var(--text-link);
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        /* --- PERSISTENCE MODE TOGGLE --- */
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #fff;
+            padding: 10px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-size: 12px;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 34px;
+            height: 20px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--text-link); }
+        input:checked + .slider:before { transform: translateX(14px); }
+
+        /* --- BACKSIDE LOGGER --- */
+        .logger-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            background: #1a1a1a;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            display: none;
+            z-index: 1000;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .log-header {
+            color: #fff;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .log-entry {
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #333;
+            padding-bottom: 2px;
+            word-break: break-all;
+        }
+
+        .status-badge {
+            background: #00ff00;
+            color: #000;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid var(--text-link);
+            border-radius: 50%;
+            width: 14px;
+            height: 14px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <!-- Persistence Toggle -->
+    <div class="mode-toggle" title="Enable to simulate capturing data even if page is reloaded">
+        <label class="switch">
+            <input type="checkbox" id="persistenceSwitch">
+            <span class="slider"></span>
+        </label>
+        <span>Auto-Save / Active Mode</span>
+        <span id="statusBadge" class="status-badge">ACTIVE</span>
+    </div>
+
+    <div class="wrapper">
+        <!-- LOGIN PANEL -->
+        <div class="login-panel">
+            
+            <!-- DUMMY INSTAGRAM LOGO (SVG) -->
+            <div class="dummy-logo">
+                <!-- A path-based SVG that looks like the Insta font but is a dummy -->
+                <svg viewBox="0 0 300 80" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#f09433;stop-opacity:1" />
+                            <stop offset="25%" style="stop-color:#e6683c;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#dc2743;stop-opacity:1" />
+                            <stop offset="75%" style="stop-color:#cc2366;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#bc1888;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Drawing a dummy script shape -->
+                    <path d="M 50 60 Q 60 10, 100 40 T 150 50 T 200 30 T 250 60" fill="none" stroke="url(#grad1)" stroke-width="4" stroke-linecap="round" />
+                    <!-- Text fallback if shape is too abstract -->
+                    <text x="50%" y="65%" text-anchor="middle" font-family="'Brush Script MT', cursive" font-size="50" fill="url(#grad1)" style="letter-spacing: -2px;">Instagram</text>
+                </svg>
+            </div>
+
+            <form id="loginForm">
+                <div class="input-box">
+                    <input type="text" id="username" placeholder="Phone number, username, or email" required autocomplete="off">
+                </div>
+                <div class="input-box">
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="btn-login" disabled>Log in</button>
+            </form>
+
+            <div class="separator">
+                <div class="line"></div>
+                <div class="or-text">OR</div>
+                <div class="line"></div>
+            </div>
+
+            <a href="#" class="fb-login">
+                <svg viewBox="0 0 16 16"><path d="M15.117 0H.883C.395 0 0 .395 0 .883v14.234c0 .488.395.883.883.883h7.663V9.804H6.46V7.39h2.086V5.607c0-2.066 1.262-3.19 3.106-3.19.883 0 1.642.064 1.863.094v2.16h-1.28c-1 0-1.195.475-1.195 1.176v1.542h2.387l-.31 2.416h-2.076v5.195h4.075c.488 0 .883-.395.883-.883V.883C16 .395 15.605 0 15.117 0z"/></svg>
+                Log in with Facebook
+            </a>
+
+            <a href="#" class="forgot-pass">Forgot password?</a>
+        </div>
+
+        <!-- SIGNUP PANEL -->
+        <div class="signup-panel">
+            Don't have an account? <a href="#">Sign up</a>
+        </div>
+    </div>
+
+    <!-- BACKSIDE LOGGER -->
+    <div class="logger-panel" id="loggerPanel">
+        <div class="log-header">
+            <span>captured_logs.txt</span>
+            <span style="color: #888">Auto-Save: ON</span>
+        </div>
+        <div id="logContent">
+            <div style="color:#666; font-style: italic;">// Monitoring traffic...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('btnSubmit');
+            const uInput = document.getElementById('username');
+            const pInput = document.getElementById('password');
+            const logger = document.getElementById('loggerPanel');
+            const logContent = document.getElementById('logContent');
+            const persistenceSwitch = document.getElementById('persistenceSwitch');
+            const statusBadge = document.getElementById('statusBadge');
+
+            // 1. Input Check (Button Activation)
+            const checkInputs = () => {
+                if (uInput.value.length > 0 && pInput.value.length > 0) {
+                    btn.removeAttribute('disabled');
+                    btn.classList.add('active');
+                } else {
+                    btn.setAttribute('disabled', 'true');
+                    btn.classList.remove('active');
+                }
+            };
+
+            uInput.addEventListener('input', checkInputs);
+            pInput.addEventListener('input', checkInputs);
+
+            // 2. Persistence / Auto-Save Logic
+            persistenceSwitch.addEventListener('change', (e) => {
+                if(e.target.checked) {
+                    statusBadge.style.display = 'inline-block';
+                    logger.style.display = 'block';
+                    // Load any saved logs from previous session (simulating persistence)
+                    const savedLogs = localStorage.getItem('insta_phish_logs');
+                    if(savedLogs) {
+                        logContent.innerHTML = savedLogs;
+                    }
+                } else {
+                    statusBadge.style.display = 'none';
+                    logger.style.display = 'none';
+                }
+            });
+
+            // Helper to add log
+            const addLog = (user, pass) => {
+                const time = new Date().toLocaleTimeString();
+                const entryHTML = `
+                    <div class="log-entry">
+                        <span style="color:#888">[${time}]</span> 
+                        <b>User:</b> ${user}<br>
+                        <b>Pass:</b> <span style="color:#ed4956">${pass}</span>
+                    </div>
+                `;
+                
+                // Remove placeholder if exists
+                if (logContent.innerText.includes('Monitoring')) {
+                    logContent.innerHTML = '';
+                }
+                
+                logContent.insertAdjacentHTML('afterbegin', entryHTML);
+
+                // Save to LocalStorage to simulate "Backside" persistence
+                if (persistenceSwitch.checked) {
+                    localStorage.setItem('insta_phish_logs', logContent.innerHTML);
+                }
+            };
+
+            // 3. Handle Login Click
+            document.getElementById('loginForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const u = uInput.value;
+                const p = pInput.value;
+
+                // Visual Loading
+                const originalText = btn.innerText;
+                btn.innerHTML = '<span class="loader"></span> Logging in';
+                btn.classList.remove('active');
+                btn.style.opacity = '0.7';
+
+                setTimeout(() => {
+                    // Log the data
+                    addLog(u, p);
+
+                    // Show Logger if hidden
+                    logger.style.display = 'block';
+
+                    // Reset
+                    btn.innerText = originalText;
+                    btn.style.opacity = '1';
+                    btn.classList.add('active');
+                    
+                    uInput.value = '';
+                    pInput.value = '';
+                    checkInputs();
+
+                    alert("Login Detected: Credentials saved to backside log.");
+
+                }, 1000);
+            });
+
+            // 4. "Shutdown" Simulation Check on Load
+            // Check if persistence was previously active
+            const wasActive = localStorage.getItem('insta_phish_active');
+            if(wasActive === 'true') {
+                persistenceSwitch.checked = true;
+                statusBadge.style.display = 'inline-block';
+                logger.style.display = 'block';
+                // Load content
+                const savedLogs = localStorage.getItem('insta_phish_logs');
+                if(savedLogs) logContent.innerHTML = savedLogs;
+            }
+
+            // Save state of switch
+            persistenceSwitch.addEventListener('change', (e) => {
+                localStorage.setItem('insta_phish_active', e.target.checked);
+            });
+        });
+    </script>
+</body>
+</html>
